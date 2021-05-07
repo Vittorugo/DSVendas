@@ -5,10 +5,9 @@ import com.devsuperior.dsvendas.dto.SellerDTO;
 import com.devsuperior.dsvendas.entities.Sale;
 import com.devsuperior.dsvendas.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SaleService {
@@ -16,8 +15,8 @@ public class SaleService {
     @Autowired
     private SaleRepository repository;
 
-    public List<SaleDTO> findAll(){
-        List<Sale> listAll = repository.findAll();
-        return listAll.stream().map( sale -> new SaleDTO(sale)).collect(Collectors.toList());
+    public Page<SaleDTO> findAll(Pageable pageable){
+        Page<Sale> listAll = repository.findAll(pageable);
+        return listAll.map( sale -> new SaleDTO(sale));
     }
 }
